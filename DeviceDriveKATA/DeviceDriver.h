@@ -13,4 +13,5 @@ protected:
     FlashMemoryDevice* m_hardware;
 private:
     const int RERTY_TEST_COUNT = 5;
+    const int BLANK = 0xFF;
 };

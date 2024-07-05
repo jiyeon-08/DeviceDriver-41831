@@ -13,10 +13,11 @@ public:
 
 class DeviceDriverFixture : public testing::Test {
 public:
-	FlashMemoryDeviceMock mk;
-	DeviceDriver driver{ &mk }; //Mock Injection
+	testing::NiceMock<FlashMemoryDeviceMock> mk;
+	testing::NiceMock<DeviceDriver> driver{ &mk }; //Mock Injection
 	long address = 0x1;
 	int expected = 1;
+	int data = 0xDD;
 };
 
 TEST_F(DeviceDriverFixture, ReadFive) {
@@ -41,12 +42,12 @@ TEST_F(DeviceDriverFixture, ReadFiveThrow) {
 TEST_F(DeviceDriverFixture, WriteBeforeRead) {
 	EXPECT_CALL(mk, read(address))
 		.WillRepeatedly(testing::Return(0xFF));
-	driver.write(address, 0x72);
+	driver.write(address, data);
 }
 
 TEST_F(DeviceDriverFixture, WriteException) {
 	EXPECT_CALL(mk, read(address))
-		.WillRepeatedly(testing::Return(0xFA));
+		.WillRepeatedly(testing::Return(data));
 
-	EXPECT_THROW(driver.write(address, 0xFA), WriteFailException);
+	EXPECT_THROW(driver.write(address, data), WriteFailException);
 }
