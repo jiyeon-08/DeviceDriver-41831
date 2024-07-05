@@ -21,7 +21,7 @@ int DeviceDriver::read(long address)
 
 void DeviceDriver::write(long address, int data)
 {
-    int value = (int)(DeviceDriver::read(address));
+    int value = m_hardware->read(address);
     if (value != BLANK) {
         throw WriteFailException();
     }

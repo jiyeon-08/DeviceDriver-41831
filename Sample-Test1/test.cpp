@@ -41,6 +41,7 @@ TEST_F(DeviceDriverFixture, ReadFiveThrow) {
 
 TEST_F(DeviceDriverFixture, WriteBeforeRead) {
 	EXPECT_CALL(mk, read(address))
+		.Times(1)
 		.WillRepeatedly(testing::Return(0xFF));
 	driver.write(address, data);
 }
