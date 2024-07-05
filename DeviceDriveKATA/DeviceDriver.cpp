@@ -1,5 +1,6 @@
 #include "DeviceDriver.h"
 #include "ReadFailException.h"
+#include "WriteFailException.h"
 
 DeviceDriver::DeviceDriver(FlashMemoryDevice* hardware) : m_hardware(hardware)
 {}
@@ -9,9 +10,9 @@ int DeviceDriver::read(long address)
 {
     int firstValue = m_hardware->read(address); 
 
-    for (int i = 1; i < RERTY_TEST_COUNT; ++i) {
-        int nextValue = m_hardware->read(address);
-        if (nextValue != firstValue) {
+    for (int i = 1; i < 5; ++i) {
+        int tmp = m_hardware->read(address);
+        if (tmp != firstValue) {
             throw ReadFailException();
         }
     }
@@ -20,6 +21,9 @@ int DeviceDriver::read(long address)
 
 void DeviceDriver::write(long address, int data)
 {
-    // TODO: implement this method
+    int val = (int)(DeviceDriver::read(address));
+    if (val != 0xFF) {
+        throw WriteFailException();
+    }
     m_hardware->write(address, (unsigned char)data);
 }
