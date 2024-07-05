@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="DeviceDriver.h" />
     <ClInclude Include="FlashMemoryDevice.h" />
+    <ClInclude Include="ReadFailException.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
