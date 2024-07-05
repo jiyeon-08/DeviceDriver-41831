@@ -7,16 +7,15 @@ DeviceDriver::DeviceDriver(FlashMemoryDevice* hardware) : m_hardware(hardware)
 //app이 read할 예정. app 클래스 만들어야함.
 int DeviceDriver::read(long address)
 {
-    int val = m_hardware->read(address); 
-   // int val2 = val1;
+    int firstValue = m_hardware->read(address); 
 
-    for (int i = 1; i < 5; ++i) {
-        int tmp = m_hardware->read(address);
-        if (tmp != val) {
+    for (int i = 1; i < RERTY_TEST_COUNT; ++i) {
+        int nextValue = m_hardware->read(address);
+        if (nextValue != firstValue) {
             throw ReadFailException();
         }
     }
-    return val;
+    return firstValue;
 }
 
 void DeviceDriver::write(long address, int data)

@@ -10,20 +10,22 @@ public:
 	MOCK_METHOD(void, write, (long address, unsigned char data), (override));
 };
 
-TEST(TestCaseName, ReadFive) {
+class DeviceDriverFixture : public testing::Test {
+public:
 	FlashMemoryDeviceMock mk;
-	DeviceDriver driver(&mk); //Mock Injection
-
+	DeviceDriver driver{ &mk }; //Mock Injection
 	long address = 0x1;
-	int expected= 1;
+	int expected = 1;
+};
 
+TEST_F(DeviceDriverFixture, ReadFive) {
 	EXPECT_CALL(mk, read)
 		.Times(5)
 		.WillRepeatedly(testing::Return(expected));
 	EXPECT_EQ(driver.read(address), expected);
 }
 
-TEST(TestCaseName, ReadFiveThrow) {
+TEST_F(DeviceDriverFixture, ReadFiveThrow) {
 	FlashMemoryDeviceMock mk;
 	DeviceDriver driver(&mk);
 
